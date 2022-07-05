@@ -8,15 +8,22 @@ HOME_APP=`pwd`
 
 
 echo ""
-echo "############### NEXTCLOUD INSTALLATION ###############"; sleep 3
+echo "############### INSTALLATION DE NEXTCLOUD ###############"; sleep 3
 echo ""
-echo "========== Updating server packages =========="; sleep 2
+echo "========== Paramétrage date et heure =========="; sleep 2
+echo ""
+timedatectl set-timezone Europe/Paris
+hwclock -w
+timedatectl status
+
+echo ""
+echo "========== Mise à jour dépôts et paquets =========="; sleep 2
 echo ""
 
 apt -y update && apt -y upgrade
 
 echo ""
-echo "========== Installation of php 8.0 =========="; sleep 2
+echo "========== Installation de php 8.0 =========="; sleep 2
 echo ""
 
 apt install -y software-properties-common
@@ -24,7 +31,7 @@ add-apt-repository -y ppa:ondrej/php
 apt update -y
 
 echo ""
-echo "========== Installation of prerequisites ==========="; sleep 2
+echo "========== Installation prérequis ==========="; sleep 2
 echo ""
 
 export DEBIAN_FRONTEND=noninteractive
@@ -36,10 +43,10 @@ php8.0-ldap smbclient php8.0-bcmath php8.0-gmp \
 sudo
 
 echo ""
-echo "========== Installation of Nextcloud 2022 =========="; sleep 2
+echo "========== Installation de Nextcloud 2022 =========="; sleep 2
 echo ""
 
-input=$(whiptail --title "Nextcloud version" --inputbox "  Major version number (20,21,22 for exemple)" 15 55 3>&1 1>&2 2>&3)
+input=$(whiptail --title "Version de Nextcloud" --inputbox "  Numéro de version majeure (20,21,22 par exemple)" 15 55 3>&1 1>&2 2>&3)
 
 wget -N https://download.nextcloud.com/server/releases/latest-$input.tar.bz2
 tar -xvf latest-$input.tar.bz2 -C /var/www/
@@ -60,7 +67,7 @@ Alias / "/var/www/nextcloud/"
 EOF
 
 echo ""
-echo "========== Activating the necessary modules =========="; sleep 2
+echo "========== Activation des modules nécessaires =========="; sleep 2
 echo ""
 
 a2ensite nextcloud.conf
@@ -78,11 +85,11 @@ sudo -u www-data php /var/www/nextcloud/occ -V
 sudo -u www-data php /var/www/nextcloud/occ status
 
 echo ""
-echo "========== Installation of MariaDB database =========="; sleep 3
+echo "========== Installation base de données MariaDB =========="; sleep 3
 echo ""; sleep 1
-echo  "A window will open, enter the MariaDB database root password and remember it !"; sleep 3
+echo  "Une fenêtre va s'ouvrir, entrez le mot de passe de la base de données MariaDB et ne l'oubliez pas !"; sleep 3
 
-input=$(whiptail --title "MariaDB database configuration" --passwordbox "               root password" 15 50 3>&1 1>&2 2>&3)
+input=$(whiptail --title "Configuration de la base de données MariaDB" --passwordbox "               Mot de passe root" 15 50 3>&1 1>&2 2>&3)
 
 sudo mysql -u root <<-EOF
 
@@ -95,11 +102,11 @@ FLUSH PRIVILEGES;
 EOF
 
 echo ""
-echo "========== Installation of Nextcloud database =========="; sleep 3
+echo "========== Installation base de données Nextcloud =========="; sleep 3
 echo ""; sleep 1
-echo  "A window will open, enter the Nextcloud database password and remember it !"; sleep 3
+echo  "Une fenêtre va s'ouvrir, entrez le mot de passe de la base de données de Nextcloud et ne l'oubliez pas !"; sleep 3
 
-input=$(whiptail --title "Nextcloud database configuration" --passwordbox "                  root password" 15 55 3>&1 1>&2 2>&3)
+input=$(whiptail --title "Configuration de la base de données Nextcloud" --passwordbox "                  Mot de passe root" 15 55 3>&1 1>&2 2>&3)
 
 sudo mysql -u root <<-EOF
 
@@ -111,9 +118,9 @@ FLUSH PRIVILEGES;
 EOF
 
 echo ""
-echo "========== End of installation =========="
+echo "========== Fin de l'installation =========="
 echo ""
-echo "Now open your web browser and enter your IP address in the search bar to complete the installation."
+echo "Ouvrez maintenant votre navigateur web et entrez votre adresse IP dans la barre de recherche pour terminer l'installation."
 echo ""
 
 ip -f inet -o addr show | cut -d\  -f 7 | cut -d/ -f 1
