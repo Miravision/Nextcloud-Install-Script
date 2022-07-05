@@ -1,15 +1,15 @@
-# Nextcloud-Install-Script for Ubuntu Desktop/Server
-A simple script for Nextcloud Installation
+# Nextcloud-Install-Script pour Ubuntu Desktop/Server
+Un script simple pour installer Nextcloud. 
 
-* Info for first login : 
+* Informations pour la première connexion : 
 
-User of the database : Nextcloud
-
-
-Password of the databse : Password set at installation
+Utilisateur de la base de données : Nextcloud
 
 
-Name of the database : Nextcloud
+Mot de passe de la base de données : Mot de passe définit à l'installation
 
 
-Host : Localhost
+Nom de la base de données : Nextcloud
+
+
+Nom d'hôte : Localhost
