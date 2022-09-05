@@ -6,7 +6,7 @@ A simple script for Nextcloud Installation
 User of the database : Nextcloud
 
 
-Password of the databse : Password set at installation
+Password of the database : Password set at installation
 
 
 Name of the database : Nextcloud
